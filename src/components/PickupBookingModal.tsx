@@ -6,7 +6,7 @@ import {
   MapPin,
   User,
   Phone,
-  DollarSign,
+  IndianRupee,
   ShieldCheck,
   CheckCircle2,
   AlertCircle,
@@ -247,31 +247,62 @@ export const PickupBookingModal: React.FC<PickupBookingModalProps> = ({
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-2xl w-full my-8 shadow-2xl border border-slate-200 overflow-hidden">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="booking-modal-title"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white rounded-t-3xl sm:rounded-2xl max-w-2xl w-full my-0 sm:my-8 shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] sm:max-h-[88vh] flex flex-col">
+        {/* Mobile Pull Bar */}
+        <div className="sm:hidden pt-3 pb-1 flex justify-center shrink-0">
+          <div className="w-12 h-1.5 bg-slate-300 rounded-full" aria-hidden="true" />
+        </div>
+
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50/50">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-slate-200 bg-slate-50/50 shrink-0">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-lg text-slate-900">
+              <h2 id="booking-modal-title" className="font-bold text-base sm:text-lg text-slate-900">
                 Book Doorstep Pickup
-              </h3>
+              </h2>
               <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${getActionBadgeColor()}`}>
                 Route: {action.toUpperCase()}
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-600 mt-0.5">
               Confirm your customer address and driver schedule for {item.itemName}
             </p>
           </div>
 
           <button
             id="close-booking-modal-btn"
+            type="button"
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg"
+            aria-label="Close booking modal"
+            className="p-2 -mr-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:outline-hidden"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -588,7 +619,7 @@ export const PickupBookingModal: React.FC<PickupBookingModalProps> = ({
           {/* Payout or Payment Section */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 flex items-center gap-1.5">
-              <DollarSign className="w-4 h-4 text-emerald-600" />
+              <IndianRupee className="w-4 h-4 text-emerald-600" />
               4. {action === 'sell' ? 'Select Payout Method' : action === 'donate' ? 'Donation Tax Receipt Details' : 'Settlement Method'}
             </h4>
 

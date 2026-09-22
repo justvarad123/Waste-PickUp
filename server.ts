@@ -413,6 +413,68 @@ function generateFallbackAnalysis(hint: string) {
   };
 }
 
+// Server-Side Rendered (SSR) Rates and Guidelines Page for Fast Indexing & Crawlers
+app.get('/ssr/rates', (req, res) => {
+  const categoriesData = [
+    { title: 'Old Appliances (घरगुती उपकरणे)', items: 'Washing machines, fridges, air coolers, mixies', payout: '₹800 - ₹3,500' },
+    { title: 'Electronics & Mobiles (इलेक्ट्रॉनिक्स)', items: 'Broken laptops, smartphones, invertor batteries', payout: '₹500 - ₹4,500' },
+    { title: 'Old Mattresses & Cots (गादी व फर्निचर)', items: 'Cotton gaadi, spring mattresses, wooden cots', payout: '₹200 - ₹1,500' },
+    { title: 'Paper, Books & Cartons (रद्दी व खोकी)', items: 'Corrugated cartons, newspaper raddi, old books', payout: '₹14 - ₹22 / kg' },
+    { title: 'Scrap Metal & Iron (लोखंड व तांबे)', items: 'Iron grills, tin sheets, copper wires, brass', payout: '₹32 - ₹480 / kg' },
+    { title: 'Farm Plastics & Barrels (प्लॅस्टिक व ड्रम)', items: 'Drip irrigation pipes, HDPE chemical barrels', payout: '₹18 - ₹35 / kg' },
+    { title: 'Old Two-Wheelers (जुनी वाहने)', items: 'Scrap scooters, bicycle frames, battery scrap', payout: '₹1,500 - ₹12,000' },
+  ];
+
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scrap Rates & Doorstep Pickup Directory - Jath, Sangli (SSR)</title>
+  <meta name="description" content="Official SSR directory of scrap buyout prices, recycling rates, and doorstep pickup guidelines for Jath, Sangli district."/>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 24px; background: #f8fafc; color: #0f172a; }
+    .container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0; }
+    h1 { color: #047857; margin-top: 0; }
+    .badge { display: inline-block; background: #ecfdf5; color: #065f46; padding: 4px 12px; border-radius: 9999px; font-weight: 600; font-size: 12px; border: 1px solid #a7f3d0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+    th { background: #f1f5f9; color: #334155; font-weight: 600; }
+    .payout { font-weight: bold; color: #047857; }
+    .back-btn { display: inline-block; margin-top: 24px; background: #059669; color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">SSR Pre-rendered Page • Jath Municipal Swachhata Network</div>
+    <h1>Jath Doorstep Scrap & Item Pickup Directory</h1>
+    <p>Live buyout estimates, authorized recycling rates, and doorstep collection guidelines across Jath Taluka, Sangli District, Maharashtra.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Included Materials</th>
+          <th>Doorstep Payout / Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${categoriesData.map(c => `<tr>
+          <td><strong>${c.title}</strong></td>
+          <td>${c.items}</td>
+          <td class="payout">${c.payout}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    <a href="/" class="back-btn">← Launch AI Camera & Scanner App</a>
+  </div>
+</body>
+</html>`;
+
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.send(html);
+});
+
 // Start Server and mount Vite middleware
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
@@ -424,7 +486,15 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+    // Static asset caching for Core Web Vitals
+    app.use(express.static(distPath, {
+      maxAge: '1d',
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.js') || filePath.endsWith('.css') || filePath.endsWith('.svg')) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      }
+    }));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

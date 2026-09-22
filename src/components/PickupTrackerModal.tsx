@@ -7,7 +7,7 @@ import {
   MapPin,
   Calendar,
   Building,
-  DollarSign,
+  IndianRupee,
   FileText,
   RotateCw,
   ExternalLink,
@@ -55,7 +55,7 @@ export const PickupTrackerModal: React.FC<PickupTrackerModalProps> = ({
     { key: 'dispatched', label: 'Driver Dispatched', icon: Truck },
     { key: 'arrived', label: 'At Doorstep', icon: MapPin },
     { key: 'weighed_and_verified', label: 'Verified & Loaded', icon: Package },
-    { key: 'payment_settled', label: 'Payment / Receipt Settled', icon: DollarSign },
+    { key: 'payment_settled', label: 'Payment / Receipt Settled', icon: IndianRupee },
   ];
 
   const getStepIndex = (status: string) => {
@@ -77,17 +77,46 @@ export const PickupTrackerModal: React.FC<PickupTrackerModalProps> = ({
 
   const currentStepIndex = currentBooking ? getStepIndex(currentBooking.status) : 0;
 
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-3xl w-full my-6 shadow-2xl border border-slate-200 overflow-hidden">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="tracker-modal-title"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white rounded-t-3xl sm:rounded-2xl max-w-3xl w-full my-0 sm:my-6 shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] sm:max-h-[88vh] flex flex-col">
+        {/* Mobile Pull Indicator */}
+        <div className="sm:hidden pt-3 pb-1 flex justify-center shrink-0">
+          <div className="w-12 h-1.5 bg-slate-300 rounded-full" aria-hidden="true" />
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50/50">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-slate-200 bg-slate-50/50 shrink-0">
           <div>
-            <h3 className="font-bold text-lg text-slate-900 flex items-center gap-2">
-              <Truck className="w-5 h-5 text-emerald-600" />
-              Live Pickup & Payout Tracker
-            </h3>
-            <p className="text-xs text-slate-500">
+            <h2 id="tracker-modal-title" className="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+              <Truck className="w-5 h-5 text-emerald-700" aria-hidden="true" />
+              <span>Live Pickup & Payout Tracker</span>
+            </h2>
+            <p className="text-xs text-slate-600">
               Track driver dispatch, inspection, customer payouts & repeat orders
             </p>
           </div>
@@ -96,23 +125,26 @@ export const PickupTrackerModal: React.FC<PickupTrackerModalProps> = ({
             {onNewBooking && (
               <button
                 id="book-another-pickup-btn"
+                type="button"
                 onClick={() => {
                   onClose();
                   onNewBooking();
                 }}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:outline-hidden"
               >
-                <PlusCircle className="w-3.5 h-3.5 text-emerald-600" />
+                <PlusCircle className="w-3.5 h-3.5 text-emerald-700" aria-hidden="true" />
                 <span>Book Another Item</span>
               </button>
             )}
 
             <button
               id="close-tracker-modal-btn"
+              type="button"
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg"
+              aria-label="Close tracking modal"
+              className="p-2 -mr-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:outline-hidden"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -316,7 +348,7 @@ export const PickupTrackerModal: React.FC<PickupTrackerModalProps> = ({
                         <span>License: Certified {currentBooking.actionDetails.partnerType}</span>
                       </li>
                       <li className="flex items-center gap-2">
-                        <DollarSign className="w-3.5 h-3.5 text-slate-400" />
+                        <IndianRupee className="w-3.5 h-3.5 text-slate-400" />
                         <span>Method: {currentBooking.payoutOrPayment.method.replace('_', ' ').toUpperCase()}</span>
                       </li>
                       <li className="flex items-center gap-2">

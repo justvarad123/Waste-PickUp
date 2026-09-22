@@ -243,16 +243,18 @@ export const ItemAnalysisView: React.FC<ItemAnalysisViewProps> = ({
           <div className="mt-5 pt-3 border-t border-slate-100">
             <button
               id="choose-sell-btn"
+              type="button"
               disabled={!item.options.sell.eligible}
               onClick={() => onSelectAction('sell')}
-              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors ${
+              aria-label={`Choose to sell this item for ${item.options.sell.currency}${item.options.sell.amount}`}
+              className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:outline-hidden ${
                 item.options.sell.eligible
                   ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-400 cursor-not-allowed'
               }`}
             >
               <span>Choose: Sell It</span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -316,16 +318,18 @@ export const ItemAnalysisView: React.FC<ItemAnalysisViewProps> = ({
           <div className="mt-5 pt-3 border-t border-slate-100">
             <button
               id="choose-recycle-btn"
+              type="button"
               disabled={!item.options.recycle.eligible}
               onClick={() => onSelectAction('recycle')}
-              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors ${
+              aria-label={`Choose to recycle this item for ${item.options.recycle.amount > 0 ? item.options.recycle.currency + item.options.recycle.amount : 'free drop'}`}
+              className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:outline-hidden ${
                 item.options.recycle.eligible
                   ? 'bg-teal-600 hover:bg-teal-700 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-400 cursor-not-allowed'
               }`}
             >
               <span>Choose: Recycle It</span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -389,16 +393,18 @@ export const ItemAnalysisView: React.FC<ItemAnalysisViewProps> = ({
           <div className="mt-5 pt-3 border-t border-slate-100">
             <button
               id="choose-donate-btn"
+              type="button"
               disabled={!item.options.donate.eligible}
               onClick={() => onSelectAction('donate')}
-              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors ${
+              aria-label={`Choose to donate this item to ${item.options.donate.partnerName}`}
+              className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-hidden ${
                 item.options.donate.eligible
                   ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-400 cursor-not-allowed'
               }`}
             >
               <span>Choose: Donate It</span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -462,16 +468,18 @@ export const ItemAnalysisView: React.FC<ItemAnalysisViewProps> = ({
           <div className="mt-5 pt-3 border-t border-slate-100">
             <button
               id="choose-dispose-btn"
+              type="button"
               disabled={!item.options.dispose.eligible}
               onClick={() => onSelectAction('dispose')}
-              className={`w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors ${
+              aria-label={`Choose to dispose this item via ${item.options.dispose.partnerName}`}
+              className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-slate-600 focus-visible:outline-hidden ${
                 item.options.dispose.eligible
                   ? 'bg-slate-900 hover:bg-slate-800 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-400 cursor-not-allowed'
               }`}
             >
               <span>Choose: Dispose It</span>
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>

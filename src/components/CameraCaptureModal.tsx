@@ -19,14 +19,24 @@ export const CameraCaptureModal: React.FC<CameraCaptureModalProps> = ({
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!isOpen) {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        stopCamera();
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+      startCamera();
+    } else {
       stopCamera();
-      return;
     }
 
-    startCamera();
-
     return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
       stopCamera();
     };
   }, [isOpen]);
@@ -89,22 +99,37 @@ export const CameraCaptureModal: React.FC<CameraCaptureModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="camera-modal-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          stopCamera();
+          onClose();
+        }
+      }}
+    >
       <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200">
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
           <div className="flex items-center gap-2">
-            <Camera className="w-5 h-5 text-emerald-600" />
-            <h3 className="font-semibold text-slate-900">Take Photo of Item</h3>
+            <Camera className="w-5 h-5 text-emerald-600" aria-hidden="true" />
+            <h2 id="camera-modal-title" className="font-bold text-slate-900 text-base">
+              Take Photo of Item
+            </h2>
           </div>
           <button
             id="close-camera-modal-btn"
+            type="button"
+            aria-label="Close camera modal"
             onClick={() => {
               stopCamera();
               onClose();
             }}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+            className="p-2 -mr-1 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 min-w-[44px] min-h-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:outline-hidden"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 

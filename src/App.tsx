@@ -1,16 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Header } from './components/Header';
 import { PhotoUploadSection } from './components/PhotoUploadSection';
 import { ItemAnalysisView } from './components/ItemAnalysisView';
-import { PickupBookingModal } from './components/PickupBookingModal';
-import { PickupTrackerModal } from './components/PickupTrackerModal';
-import { CameraCaptureModal } from './components/CameraCaptureModal';
 import { AcceptedItemsDirectory } from './components/AcceptedItemsDirectory';
-import { AuthModal } from './components/AuthModal';
-import { UserProfileModal } from './components/UserProfileModal';
+import { WebVitalsIndicator } from './components/ui/WebVitalsIndicator';
 import { ItemAnalysis, ActionType, PickupBooking } from './types';
 import { SAMPLE_ITEMS, SampleItemPreset } from './data/sampleItems';
+
+// Dynamic code-splitting for high-performance bundle size and fast TTI
+const PickupBookingModal = lazy(() =>
+  import('./components/PickupBookingModal').then((m) => ({ default: m.PickupBookingModal }))
+);
+const PickupTrackerModal = lazy(() =>
+  import('./components/PickupTrackerModal').then((m) => ({ default: m.PickupTrackerModal }))
+);
+const CameraCaptureModal = lazy(() =>
+  import('./components/CameraCaptureModal').then((m) => ({ default: m.CameraCaptureModal }))
+);
+const AuthModal = lazy(() =>
+  import('./components/AuthModal').then((m) => ({ default: m.AuthModal }))
+);
+const UserProfileModal = lazy(() =>
+  import('./components/UserProfileModal').then((m) => ({ default: m.UserProfileModal }))
+);
 
 const STORAGE_KEY = 'sell_dispose_pickups_jath_v4';
 
@@ -265,7 +278,11 @@ function MainApp() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 focus:outline-hidden"
+      >
         {currentView === 'upload' ? (
           <div>
             <PhotoUploadSection
@@ -303,48 +320,61 @@ function MainApp() {
         </div>
       </footer>
 
-      {/* Modals */}
-      <CameraCaptureModal
-        isOpen={isCameraOpen}
-        onClose={() => setIsCameraOpen(false)}
-        onCapture={(data) => {
-          setIsCameraOpen(false);
-          handleAnalyze(data);
-        }}
-      />
+      {/* Real-time Core Web Vitals Monitor */}
+      <WebVitalsIndicator />
 
-      {analyzedItem && itemPhotoUrl && (
-        <PickupBookingModal
-          isOpen={isBookingOpen}
-          onClose={() => setIsBookingOpen(false)}
-          item={analyzedItem}
-          itemPhoto={itemPhotoUrl}
-          action={selectedAction}
-          onBookingConfirmed={handleBookingConfirmed}
-          onOpenAuth={() => setIsAuthOpen(true)}
-        />
-      )}
+      {/* Code-Split Modals loaded on-demand */}
+      <Suspense fallback={null}>
+        {isCameraOpen && (
+          <CameraCaptureModal
+            isOpen={isCameraOpen}
+            onClose={() => setIsCameraOpen(false)}
+            onCapture={(data) => {
+              setIsCameraOpen(false);
+              handleAnalyze(data);
+            }}
+          />
+        )}
 
-      <PickupTrackerModal
-        isOpen={isTrackerOpen}
-        onClose={() => setIsTrackerOpen(false)}
-        bookings={bookings}
-        activeBookingId={activeBookingId}
-        onSelectBooking={(id) => setActiveBookingId(id)}
-        onAdvanceStatus={handleAdvanceStatus}
-        onNewBooking={handleReset}
-      />
+        {isBookingOpen && analyzedItem && itemPhotoUrl && (
+          <PickupBookingModal
+            isOpen={isBookingOpen}
+            onClose={() => setIsBookingOpen(false)}
+            item={analyzedItem}
+            itemPhoto={itemPhotoUrl}
+            action={selectedAction}
+            onBookingConfirmed={handleBookingConfirmed}
+            onOpenAuth={() => setIsAuthOpen(true)}
+          />
+        )}
 
-      <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
-      />
+        {isTrackerOpen && (
+          <PickupTrackerModal
+            isOpen={isTrackerOpen}
+            onClose={() => setIsTrackerOpen(false)}
+            bookings={bookings}
+            activeBookingId={activeBookingId}
+            onSelectBooking={(id) => setActiveBookingId(id)}
+            onAdvanceStatus={handleAdvanceStatus}
+            onNewBooking={handleReset}
+          />
+        )}
 
-      <UserProfileModal
-        isOpen={isProfileOpen}
-        onClose={() => setIsProfileOpen(false)}
-        onViewPickups={() => setIsTrackerOpen(true)}
-      />
+        {isAuthOpen && (
+          <AuthModal
+            isOpen={isAuthOpen}
+            onClose={() => setIsAuthOpen(false)}
+          />
+        )}
+
+        {isProfileOpen && (
+          <UserProfileModal
+            isOpen={isProfileOpen}
+            onClose={() => setIsProfileOpen(false)}
+            onViewPickups={() => setIsTrackerOpen(true)}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

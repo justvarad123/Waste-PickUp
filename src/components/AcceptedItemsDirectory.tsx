@@ -1,18 +1,10 @@
 import React from 'react';
 import {
-  Armchair,
-  Tv,
-  FileText,
-  Boxes,
-  Cpu,
-  Smartphone,
-  Hammer,
-  Sparkles,
-  ArrowUpRight,
   ShieldCheck,
   CheckCircle2,
   Recycle,
-  DollarSign
+  ArrowUpRight,
+  IndianRupee
 } from 'lucide-react';
 import { SAMPLE_ITEMS, SampleItemPreset } from '../data/sampleItems';
 
@@ -100,85 +92,87 @@ export const AcceptedItemsDirectory: React.FC<AcceptedItemsDirectoryProps> = ({
   };
 
   return (
-    <section id="accepted-items-directory" className="py-12 border-t border-slate-200 mt-12 bg-slate-50/50">
+    <section id="accepted-items-directory" aria-labelledby="directory-title" className="py-12 border-t border-slate-200 mt-12 bg-slate-50/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold mb-2 border border-slate-200">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-semibold mb-2 border border-slate-300">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" aria-hidden="true" />
             <span>Universal Acceptance Standards</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+          <h2 id="directory-title" className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             What Can You Sell, Recycle, Donate, or Dispose?
           </h2>
-          <p className="mt-2 text-sm text-slate-600">
-            From single broken phones to truckloads of renovation rubble, our AI immediately identifies the value stream and routes it to the optimal partner.
+          <p className="mt-2 text-sm text-slate-700">
+            From single broken appliances to truckloads of renovation rubble in Jath, our AI appraiser classifies the material stream and pairs it with certified local partners.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((cat, idx) => (
-            <div
+            <button
               key={idx}
+              type="button"
               onClick={() => handleCategoryClick(cat.sampleId)}
-              className="group p-5 bg-white border border-slate-200 rounded-2xl hover:border-emerald-500 hover:shadow-xs cursor-pointer transition-all flex flex-col justify-between"
+              aria-label={`Inspect category: ${cat.title}. Typical route: ${cat.preferredRoute}. Value: ${cat.payoutRange}`}
+              className="group p-5 bg-white border border-slate-200 rounded-2xl hover:border-emerald-500 hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between text-left focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:outline-hidden min-h-[140px]"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-3xl">{cat.emoji}</span>
-                  <span className="p-1.5 rounded-lg bg-slate-50 text-slate-400 group-hover:text-emerald-600 group-hover:bg-emerald-50 transition-colors">
-                    <ArrowUpRight className="w-4 h-4" />
+                  <span className="text-3xl" aria-hidden="true">{cat.emoji}</span>
+                  <span className="p-2 rounded-xl bg-slate-100 text-slate-600 group-hover:text-emerald-800 group-hover:bg-emerald-50 transition-colors">
+                    <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
                   </span>
                 </div>
 
-                <h3 className="font-bold text-slate-900 text-base group-hover:text-emerald-700 transition-colors">
+                <h3 className="font-bold text-slate-900 text-base group-hover:text-emerald-800 transition-colors">
                   {cat.title}
                 </h3>
-                <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                   {cat.description}
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-100 space-y-1 text-xs">
+              <div className="mt-4 pt-3 border-t border-slate-100 space-y-1.5 text-xs w-full">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Typical Route:</span>
-                  <span className="font-semibold text-slate-800 text-[11px]">{cat.preferredRoute}</span>
+                  <span className="text-slate-600">Route:</span>
+                  <span className="font-semibold text-slate-900 text-[11px]">{cat.preferredRoute}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Value / Yield:</span>
-                  <span className="font-bold text-emerald-700">{cat.payoutRange}</span>
+                  <span className="text-slate-600">Estimated Yield:</span>
+                  <span className="font-bold text-emerald-800">{cat.payoutRange}</span>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
         {/* Bottom Trust & Process Banner */}
-        <div className="mt-10 p-6 bg-white border border-slate-200 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+        <div className="mt-10 p-6 bg-white border border-slate-200 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xs">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-emerald-700 text-white flex items-center justify-center shrink-0" aria-hidden="true">
               <Recycle className="w-6 h-6 stroke-[2.2]" />
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 text-sm sm:text-base">
+              <h3 className="font-bold text-slate-900 text-sm sm:text-base">
                 100% Zero-Illegal-Dumping Guarantee (Jath & Sangli District)
-              </h4>
-              <p className="text-xs text-slate-500 mt-0.5">
+              </h3>
+              <p className="text-xs text-slate-600 mt-0.5">
                 All scrap traders, refurbishers, and haulers are verified under Jath Nagar Parishad and Maharashtra Pollution Control Board (MPCB) guidelines. Digital gate-pass receipt issued for every pickup.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-6 shrink-0 text-xs font-semibold text-slate-700">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 shrink-0 text-xs font-semibold text-slate-800">
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" aria-hidden="true" />
               <span>Doorstep Weighing</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" aria-hidden="true" />
               <span>Instant UPI / Spot Cash</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" aria-hidden="true" />
               <span>80G NGO Receipts</span>
             </div>
           </div>
