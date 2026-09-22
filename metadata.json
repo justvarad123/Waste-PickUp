@@ -1,0 +1,6 @@
+{
+  "name": "Sell / Dispose Anything - Jath, Sangli (Waste & Item Pickup)",
+  "description": "Smart doorstep waste pickup and item disposition platform for Jath, Sangli district, Maharashtra. Upload a photo of old appliances, electronics, furniture, or scrap to sell, recycle, donate, or dispose with instant UPI/Cash payout in INR (₹).",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <defs>
+    <!-- Background foliage bokeh gradient -->
+    <radialGradient id="foliage" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#4a7c59"/>
+      <stop offset="45%" stop-color="#2d5a3d"/>
+      <stop offset="85%" stop-color="#1b3d27"/>
+      <stop offset="100%" stop-color="#142c1d"/>
+    </radialGradient>
+    <radialGradient id="bokeh1" cx="30%" cy="20%" r="20%">
+      <stop offset="0%" stop-color="#80b98f" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#80b98f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bokeh2" cx="75%" cy="25%" r="25%">
+      <stop offset="0%" stop-color="#a3d9b1" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a3d9b1" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Skin gradient -->
+    <linearGradient id="skin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d99f73"/>
+      <stop offset="50%" stop-color="#c58a5e"/>
+      <stop offset="100%" stop-color="#aa7147"/>
+    </linearGradient>
+    <!-- Suit shadow -->
+    <linearGradient id="suit" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#242429"/>
+      <stop offset="40%" stop-color="#16161a"/>
+      <stop offset="100%" stop-color="#0d0d10"/>
+    </linearGradient>
+    <!-- Pocket square pattern -->
+    <linearGradient id="pocketsquare" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="50%" stop-color="#be123c"/>
+      <stop offset="100%" stop-color="#881337"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="256" height="256" fill="url(#foliage)"/>
+  <circle cx="70" cy="50" r="45" fill="url(#bokeh1)"/>
+  <circle cx="195" cy="65" r="55" fill="url(#bokeh2)"/>
+  <circle cx="128" cy="40" r="30" fill="url(#bokeh1)"/>
+
+  <!-- Neck -->
+  <path d="M110 135 L110 168 Q128 174 146 168 L146 135 Z" fill="#b87a4f"/>
+  <path d="M114 140 Q128 152 142 140 L146 168 Q128 174 110 168 Z" fill="#9e653d" opacity="0.4"/>
+
+  <!-- Black Shirt V-neck -->
+  <polygon points="110,165 146,165 136,192 120,192" fill="#111114"/>
+  <polygon points="120,172 136,172 128,188" fill="#c58a5e"/>
+
+  <!-- Suit Body & Shoulders -->
+  <path d="M42 256 L52 205 Q70 178 108 170 L128 198 L148 170 Q186 178 204 205 L214 256 Z" fill="url(#suit)"/>
+
+  <!-- Lapels -->
+  <!-- Left Lapel -->
+  <path d="M108 170 L86 195 L118 256 L128 256 L128 198 Z" fill="#202026"/>
+  <!-- Right Lapel -->
+  <path d="M148 170 L170 195 L138 256 L128 256 L128 198 Z" fill="#18181f"/>
+
+  <!-- Maroon Pocket Square on Suit Chest -->
+  <polygon points="166,208 174,198 181,202 186,196 190,207" fill="url(#pocketsquare)"/>
+  <path d="M164 208 L192 207 L190 211 L166 211 Z" fill="#09090b"/>
+
+  <!-- Head / Face -->
+  <!-- Jaw & Cheeks (slight angle looking thoughtfully) -->
+  <path d="M96 95 C96 68 110 58 128 58 C146 58 160 68 160 95 C160 120 152 144 128 147 C104 144 96 120 96 95 Z" fill="url(#skin)"/>
+
+  <!-- Ears -->
+  <path d="M94 92 Q90 102 96 112 Z" fill="#ba7f54"/>
+  <path d="M162 92 Q166 102 160 112 Z" fill="#ba7f54"/>
+
+  <!-- Beard & Mustache (neatly trimmed matching photo) -->
+  <path d="M97 98 C98 124 106 148 128 149 C150 148 158 124 159 98 C159 108 154 135 146 142 C138 148 118 148 110 142 C102 135 97 108 97 98 Z" fill="#18181b"/>
+  <!-- Chin beard texture -->
+  <ellipse cx="128" cy="142" rx="10" ry="7" fill="#111113"/>
+  <!-- Mustache -->
+  <path d="M115 125 Q128 123 141 125 Q135 130 128 129 Q121 130 115 125 Z" fill="#18181b"/>
+  <path d="M117 124 Q128 121 139 124" stroke="#111113" stroke-width="2"/>
+
+  <!-- Nose -->
+  <path d="M125 90 L124 112 L130 112 Z" fill="#ab7146" opacity="0.6"/>
+  <path d="M122 113 Q126 116 132 113" stroke="#945f39" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+  <!-- Lips -->
+  <path d="M122 121 Q128 124 134 121" stroke="#9e5647" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+  <!-- Eyes & Eyebrows -->
+  <!-- Left Eyebrow (expressive, confident) -->
+  <path d="M106 82 Q115 78 122 81" stroke="#18181b" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Right Eyebrow -->
+  <path d="M134 81 Q141 78 150 82" stroke="#18181b" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Left Eye -->
+  <ellipse cx="114" cy="88" rx="5" ry="3" fill="#ffffff"/>
+  <circle cx="114" cy="88" r="2.4" fill="#261b14"/>
+  <circle cx="115" cy="87" r="0.8" fill="#ffffff"/>
+  <path d="M109 87 Q114 84 119 87" stroke="#3d2616" stroke-width="1.4" fill="none"/>
+
+  <!-- Right Eye -->
+  <ellipse cx="142" cy="88" rx="5" ry="3" fill="#ffffff"/>
+  <circle cx="142" cy="88" r="2.4" fill="#261b14"/>
+  <circle cx="143" cy="87" r="0.8" fill="#ffffff"/>
+  <path d="M137 87 Q142 84 147 87" stroke="#3d2616" stroke-width="1.4" fill="none"/>
+
+  <!-- Hair (stylish dark hair, combed volume on top matching photo) -->
+  <path d="M96 85 C94 58 106 42 128 40 C146 38 162 48 162 75 C162 82 160 88 158 92 C155 82 153 72 144 68 C135 64 115 65 106 75 C100 80 97 85 96 85 Z" fill="#18181b"/>
+  <path d="M110 48 Q128 36 148 45 Q158 54 156 68 Q144 52 124 50 Q112 50 110 48 Z" fill="#242429"/>
+  <path d="M98 75 Q106 58 126 52" stroke="#28282e" stroke-width="2" fill="none"/>
+</svg>
