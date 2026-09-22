@@ -29,7 +29,7 @@ If you prefer configuring the Web Service manually:
    - **Name**: `sell-dispose-anything-jath`
    - **Environment / Runtime**: `Node`
    - **Branch**: `main` (or your default branch)
-   - **Build Command**: `npm install && npm run build`
+   - **Build Command**: `npm install --legacy-peer-deps && npm run build`
    - **Start Command**: `npm start`
 4. Under **Environment Variables**, add:
    - `NODE_VERSION` = `22.14.0`
